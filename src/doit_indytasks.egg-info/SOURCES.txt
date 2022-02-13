@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/doit_indytasks.egg-info/PKG-INFO
+src/doit_indytasks.egg-info/SOURCES.txt
+src/doit_indytasks.egg-info/dependency_links.txt
+src/doit_indytasks.egg-info/requires.txt
+src/doit_indytasks.egg-info/top_level.txt
