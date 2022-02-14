@@ -67,9 +67,9 @@ def task_release():
         'basename': RELEASE,
         'params': [
             {'name': 'version', 'short': 'v', 'default': "0.0.0"},
-            {'name': 'dryrun', 'short': 'd', 'type' : 'bool' , 'default': False }
+            {'name': 'dryrun', 'long': 'dryrun', 'type' : bool , 'default': False }
             ],
-        'task_dep': [],
+        'task_dep': [READY],
         'targets': [CFG_FILE, README_FILE],
         'actions': [(update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
