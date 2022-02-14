@@ -26,7 +26,7 @@ def task_ready():
 
     return {
         'basename': READY,
-        'actions': [git_is_ready, "git fetch", "git checkout main"],
+        'actions': ["git fetch", "git status", git_is_ready, "git checkout main"],
         'verbosity': 2
     }
 
