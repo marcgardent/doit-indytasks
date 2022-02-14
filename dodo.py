@@ -2,6 +2,23 @@ import re
 from doit.tools import exceptions
 import os
 
+READY = 'ready'
+
+def task_ready():
+    """folder is ready for a new task?"""
+
+    def git_is_ready():
+        if os.system("git diff-index --quiet HEAD --") != 0:
+            os.system("git diff-index HEAD --")
+            return exceptions.TaskFailed("Pending changes: commit or stash your workspace.")
+
+    return {
+        'basename': READY,
+        'actions': ["git fetch", "git status", git_is_ready, "git checkout main"],
+        'verbosity': 2
+    }
+
+
 READY = 'git/ready'
 RELEASE = 'release'
 CFG_FILE = "setup.cfg"
@@ -31,6 +48,18 @@ def task_ready():
         'actions': ["git fetch", "git status", git_is_ready, "git checkout main"],
         'verbosity': 2
     }
+
+PACKAGE = "pack"
+def task_package():
+    """check the generation package locally"""
+    return {
+        'basename': PACKAGE,
+        'targets': ["dist"],
+        'actions': ["python -m build"],
+        'verbosity': 2
+    }
+
+
 
 def task_release():
     """release new version"""
@@ -66,8 +95,8 @@ def task_release():
     return {
         'basename': RELEASE,
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
-        'task_dep': [READY],
+        'task_dep': [READY, PACKAGE],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [(check_format,), (check_tag,), (update_setup,), (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
+        'actions': [(check_format,), (check_tag,), (update_setup,), (update_readme,), (commit,), (tag,), "git push --porcelain", "git push --tags --porcelain"],
         'verbosity': 2
     }

@@ -4,12 +4,6 @@
 ## install
 
 ```sh
-py -m pip install git+git@github.com:marcgardent/doit-indytasks.git@latest
-```
-
-## install
-
-```sh
 
 pip install git+https://github.com/marcgardent/doit-indytasks.git@v0.0.9
 
