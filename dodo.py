@@ -46,7 +46,7 @@ def task_release():
         replace_in_file(README_FILE, r'@v\d+\.\d+\.\d+',f"@v{version}")
 
     def commit(version):
-        cmd = f"git commit -m 'release v{version}'"
+        cmd = f"git commit -a -m 'release v{version}'"
         print (cmd)
         return os.system(cmd) != 0
     def tag(version):
@@ -59,6 +59,6 @@ def task_release():
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [(check_format,), (update_setup,),  (update_readme,), "git add .",(commit,), (tag,), "git push --all --porcelain"],
+        'actions': [(check_format,), (update_setup,),  (update_readme,), "git status", (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
     }
