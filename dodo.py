@@ -39,7 +39,7 @@ def task_release():
         return bool(pattern.match(version))
 
     def check_tag(version):
-        ret = os.system(f"git rev-list --quiet v{version}") ==0
+        ret = os.system(f"git rev-list v{version}") ==0
         if ret:
             print("tag already exists:")
             os.system("git tag --list")
@@ -64,7 +64,7 @@ def task_release():
     return {
         'basename': RELEASE,
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
-        'task_dep': [READY],
+        'task_dep': [],
         'targets': [CFG_FILE, README_FILE],
         'actions': [(check_format,), (check_tag,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
