@@ -11,7 +11,7 @@ py -m pip install git+git@github.com:marcgardent/doit-indytasks.git@latest
 
 ```sh
 
-pip install git+https://github.com/marcgardent/doit-indytasks.git@v0.0.0
+pip install git+https://github.com/marcgardent/doit-indytasks.git@v0.0.8
 
 ```
 
