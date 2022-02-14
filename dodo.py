@@ -60,6 +60,6 @@ def task_release():
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [(check_format,), (update_setup,),  (update_readme,), "dir", (commit,), (tag,), "git push --all --porcelain"],
+        'actions': [(check_format,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
     }
