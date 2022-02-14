@@ -2,38 +2,14 @@ import re
 from doit.tools import exceptions
 import os
 
-READY = 'ready'
-
-def task_ready():
-    """folder is ready for a new task?"""
-
-    def git_is_ready():
-        if os.system("git diff-index --quiet HEAD --") != 0:
-            os.system("git diff-index HEAD --")
-            return exceptions.TaskFailed("Pending changes: commit or stash your workspace.")
-
-    return {
-        'basename': READY,
-        'actions': ["git fetch", "git status", git_is_ready, "git checkout main"],
-        'verbosity': 2
-    }
+from indytasks.fsutils import replace_in_file
+from indytasks.git import READY, task_ready
 
 
-READY = 'git/ready'
 RELEASE = 'release'
 CFG_FILE = "setup.cfg"
 README_FILE = "README.md"
 
-def replace_in_file(file, regex_source, regex_dest):     
-    
-    print(f"replace in '{file}' /{regex_source}/ by /{regex_dest}/ ...")
-    content_new = ""
-    
-    with open (file, 'r', encoding='utf-8' ) as f:
-        content_new = re.sub(regex_source, regex_dest, f.read(), flags = re.M)
-    
-    with open (file, 'w', encoding='utf-8' ) as f:
-            f.write(content_new)
 
 def task_ready():
     """folder is ready for a new task?"""
