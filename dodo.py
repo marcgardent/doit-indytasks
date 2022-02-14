@@ -47,6 +47,6 @@ def task_release():
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [READY],
         'targets': [CFG_FILE],
-        'actions': [(check_format,), (update_setup,),  (update_readme,), "git add .","git commit -m 'release v%(version)'", "git push"],
+        'actions': [(check_format,), (update_setup,),  (update_readme,), "git add .","git commit -m \"release v%(version)\"", "git push"],
         'verbosity': 2   
     }
