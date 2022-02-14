@@ -1,5 +1,5 @@
-import dotasks.git as git
 
+from indytasks import git
 UPGRADE = 'py/upgrade'
 INSTALL = 'py/install'
 FREEZE = '_py/freeze'
@@ -35,7 +35,3 @@ def task_py_upgrade():
         'actions': ["echo upgrade done: check and commit changes."],
         'verbosity': 2
         }
-
-if __name__ == '__main__':
-    import dotasks
-    dotasks.run(globals())

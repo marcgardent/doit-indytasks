@@ -2,9 +2,8 @@ import re
 from doit.tools import exceptions
 import os
 
-from indytasks.fsutils import replace_in_file
+from indytasks.fsutils  import replace_in_file
 from indytasks.git import READY, task_ready
-
 
 RELEASE = 'release'
 CFG_FILE = "setup.cfg"
@@ -35,7 +34,14 @@ def task_package():
         'verbosity': 2
     }
 
-
+SMOKE_TEST= "smoke-test"
+def task_smoke_test():
+    """check the generation package locally"""
+    return {
+        'basename': SMOKE_TEST,
+        'actions': ["python src/smoke-test.py"],
+        'verbosity': 2
+    }
 
 def task_release():
     """release new version"""
@@ -71,7 +77,7 @@ def task_release():
     return {
         'basename': RELEASE,
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
-        'task_dep': [READY, PACKAGE],
+        'task_dep': [READY, PACKAGE, SMOKE_TEST],
         'targets': [CFG_FILE, README_FILE],
         'actions': [(check_format,), (check_tag,), (update_setup,), (update_readme,), (commit,), (tag,), "git push --porcelain", "git push --tags --porcelain"],
         'verbosity': 2
