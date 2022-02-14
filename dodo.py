@@ -44,7 +44,9 @@ def task_release():
         replace_in_file(README_FILE, r'@v\d+\.\d+\.\d+',f"@v{version}")
 
     def commit(version):
-        return os.system(f"git commit -m 'release {version}'") != 0
+        cmd = f"git commit -m 'release v{version}'"
+        print (cmd)
+        return os.system(cmd) != 0
 
     return {
         'basename': RELEASE,
