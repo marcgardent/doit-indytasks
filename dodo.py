@@ -51,7 +51,7 @@ def task_release():
         return os.system(cmd) != 0
 
     def tag(version):
-        cmd = f"git tag v{version} --sign -m 'release version {version}'"
+        cmd = f"git tag v{version} --sign -m \"release version {version}\""
         print (cmd)
         return os.system(cmd) != 0
 
@@ -60,7 +60,6 @@ def task_release():
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [(commit,)],
-        #'actions': [(check_format,), (update_setup,),  (update_readme,), "dir", (commit,), (tag,), "git push --all --porcelain"],
+        'actions': [(check_format,), (update_setup,),  (update_readme,), "dir", (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
     }
