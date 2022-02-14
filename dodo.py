@@ -64,8 +64,8 @@ def task_release():
     return {
         'basename': RELEASE,
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
-        'task_dep': [],
+        'task_dep': [READY],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [READY,(check_format,), (check_tag,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
+        'actions': [(check_format,), (check_tag,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
     }
