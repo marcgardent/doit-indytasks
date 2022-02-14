@@ -4,6 +4,16 @@ import os
 READY = 'git/ready'
 RELEASE = 'release'
 CFG_FILE = "setup.cfg"
+README_FILE = "README.md"
+
+def replace_in_file(file, regex_source, regex_dest):     
+    import re           
+    print(f"replace in '{file}' /{regex_source}/ by /{regex_dest}/ ...")
+    content_new = ""
+    with open (file, 'r', encoding='utf-8' ) as f:
+        content_new = re.sub(regex_source, regex_dest, f.read(), flags = re.M)
+    with open (file, 'w', encoding='utf-8' ) as f:
+        f.write(content_new)
 
 def task_ready():
     """folder is ready for a new task?"""
@@ -26,18 +36,17 @@ def task_release():
         pattern = re.compile(r"^(\d+\.\d+\.\d+)$")
         return bool(pattern.match(version))
 
-    def update_setup(version):     
-        import re           
-        with open (CFG_FILE, 'r' ) as f:
-            content = f.read()
-            content_new = re.sub(r'version = \d+\.\d+\.\d+', f'version = {version}', content, flags = re.M)
-            print(content_new)
+    def update_setup(version):
+        replace_in_file(CFG_FILE, r'^version = \d+\.\d+\.\d+$',f"version = {version}")
+
+    def update_readme(version):
+        replace_in_file(README_FILE, r'@v\d+\.\d+\.\d+',f"@v{version}")
 
     return {
         'basename': RELEASE,
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [],
-        'file_dep': [CFG_FILE],
-        'actions': [(check_format,), (update_setup,)],
-        'verbosity': 2
+        'targets': [CFG_FILE],
+        'actions': [(check_format,), (update_setup,),  (update_readme,)],
+        'verbosity': 2   
     }
