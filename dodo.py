@@ -1,3 +1,4 @@
+import re
 from doit.tools import exceptions
 import os
 
@@ -5,8 +6,6 @@ READY = 'git/ready'
 RELEASE = 'release'
 CFG_FILE = "setup.cfg"
 README_FILE = "README.md"
-
-
 
 def replace_in_file(file, regex_source, regex_dest):     
     import re           
@@ -39,6 +38,13 @@ def task_release():
         pattern = re.compile(r"^(\d+\.\d+\.\d+)$")
         return bool(pattern.match(version))
 
+    def check_tag(version):
+        ret = os.system(f"git rev-list --quiet v{version}") ==0
+        if ret:
+            print("tag already exists:")
+            os.system("git tag --list")
+            return exceptions.TaskFailed("change the version")
+
     def update_setup(version):
         replace_in_file(CFG_FILE, r'^version = \d+\.\d+\.\d+$',f"version = {version}")
 
@@ -60,6 +66,6 @@ def task_release():
         'params': [{'name': 'version', 'short': 'v', 'default': "0.0.0"}],
         'task_dep': [],
         'targets': [CFG_FILE, README_FILE],
-        'actions': [(check_format,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
+        'actions': [READY,(check_format,), (check_tag,), (update_setup,),  (update_readme,), (commit,), (tag,), "git push --all --porcelain"],
         'verbosity': 2   
     }
