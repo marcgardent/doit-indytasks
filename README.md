@@ -5,7 +5,7 @@
 
 ```sh
 
-pip install git+https://github.com/marcgardent/doit-indytasks.git@v0.1.0
+pip install git+https://github.com/marcgardent/doit-indytasks.git@v0.1.1
 
 ```
 
